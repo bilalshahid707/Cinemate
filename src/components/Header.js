@@ -15,10 +15,19 @@ export const Header = () => {
   }, [darkMode]);
 
   ////////////////////////// RESPONSIVE MENU SETTINGS
-  const [hidden, setHidden] = useState(true);
+  const [menuHidden, setMenuToHidden] = useState(true);
   const openMenu = () => {
-    setHidden(!hidden);
+    setMenuToHidden(!menuHidden);
   };
+  
+  useEffect(()=>{
+    if (menuHidden) {
+      const navbar = document.querySelector("#navbar-search")
+      navbar.classList.add("hidden")
+    }
+  },[menuHidden])
+
+
   const activeClass =
     "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500";
   const inactiveClass =
@@ -31,6 +40,7 @@ export const Header = () => {
     let query = event.target.input.value;
     if (query.length > 0) {
       event.target.reset();
+      setMenuToHidden(true)
       return navigate(`/search/movie?query=${query}`);
     } else {
       return;
@@ -181,11 +191,11 @@ export const Header = () => {
           </div>
           <div
             className={`items-center justify-between ${
-              hidden ? "hidden" : ""
+              menuHidden   ? "hidden" : ""
             } w-full md:flex md:w-auto md:order-1 `}
             id="navbar-search"
           >
-            <div className="relative mt-3 md:hidden">
+            <div className={`relative mt-3 md:hidden`}>
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
                   className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -216,7 +226,7 @@ export const Header = () => {
             </div>
 
             {/************************** NAVIGATION ***********************************/}
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 ">
               <li>
                 <NavLink
                   to="/"
@@ -224,6 +234,7 @@ export const Header = () => {
                     isActive ? activeClass : inactiveClass
                   }
                   aria-current="page"
+                  onClick={()=>setMenuToHidden(true)}
                 >
                   Home
                 </NavLink>
@@ -234,6 +245,7 @@ export const Header = () => {
                   className={({ isActive }) =>
                     isActive ? activeClass : inactiveClass
                   }
+                  onClick={()=>setMenuToHidden(true)}
                 >
                   Popular
                 </NavLink>
@@ -244,6 +256,7 @@ export const Header = () => {
                   className={({ isActive }) =>
                     isActive ? activeClass : inactiveClass
                   }
+                  onClick={()=>setMenuToHidden(true)}
                 >
                   Top Rated
                 </NavLink>
@@ -254,6 +267,7 @@ export const Header = () => {
                   className={({ isActive }) =>
                     isActive ? activeClass : inactiveClass
                   }
+                  onClick={()=>setMenuToHidden(true)}
                 >
                   Upcoming
                 </NavLink>
